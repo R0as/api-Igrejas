@@ -31,23 +31,9 @@ class Church
     #[ORM\Column(length: 20)]
     private string $phone;
 
-    #[ORM\Column(length: 255)]
-    private string $addressStreet;
-
-    #[ORM\Column(length: 20)]
-    private string $addressNumber;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $addressComplement = null;
-
-    #[ORM\Column(length: 100)]
-    private string $addressCity;
-
-    #[ORM\Column(length: 2)]
-    private string $addressState;
-
-    #[ORM\Column(length: 9)]
-    private string $addressZipCode;
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Address $address = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $website = null;
@@ -137,69 +123,15 @@ class Church
         return $this;
     }
 
-    public function getAddressStreet(): string
+    public function getAddress(): ?Address
     {
-        return $this->addressStreet;
+        return $this->address;
     }
 
-    public function setAddressStreet(string $addressStreet): static
+    public function setAddress(Address $address): static
     {
-        $this->addressStreet = $addressStreet;
-        return $this;
-    }
+        $this->address = $address;
 
-    public function getAddressNumber(): string
-    {
-        return $this->addressNumber;
-    }
-
-    public function setAddressNumber(string $addressNumber): static
-    {
-        $this->addressNumber = $addressNumber;
-        return $this;
-    }
-
-    public function getAddressComplement(): ?string
-    {
-        return $this->addressComplement;
-    }
-
-    public function setAddressComplement(?string $addressComplement): static
-    {
-        $this->addressComplement = $addressComplement;
-        return $this;
-    }
-
-    public function getAddressCity(): string
-    {
-        return $this->addressCity;
-    }
-
-    public function setAddressCity(string $addressCity): static
-    {
-        $this->addressCity = $addressCity;
-        return $this;
-    }
-
-    public function getAddressState(): string
-    {
-        return $this->addressState;
-    }
-
-    public function setAddressState(string $addressState): static
-    {
-        $this->addressState = $addressState;
-        return $this;
-    }
-
-    public function getAddressZipCode(): string
-    {
-        return $this->addressZipCode;
-    }
-
-    public function setAddressZipCode(string $addressZipCode): static
-    {
-        $this->addressZipCode = $addressZipCode;
         return $this;
     }
 
