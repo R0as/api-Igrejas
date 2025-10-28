@@ -18,10 +18,10 @@ class Member
     #[ORM\Column(length: 255)]
     private string $name;
 
-    #[ORM\Column(length: 4)]
+    #[ORM\Column(length: 4, unique: true)]
     private string $documentType;
 
-    #[ORM\Column(length: 14)]
+    #[ORM\Column(length: 14, unique: true)]
     private string $documentNumber;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
@@ -33,29 +33,18 @@ class Member
     #[ORM\Column(length: 20)]
     private string $phone;
 
-    #[ORM\Column(length: 255)]
-    private string $addressStreet;
-
-    #[ORM\Column(length: 20)]
-    private string $addressNumber;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $addressComplement = null;
-
-    #[ORM\Column(length: 100)]
-    private string $addressCity;
-
-    #[ORM\Column(length: 2)]
-    private string $addressState;
-
-    #[ORM\Column(length: 9)]
-    private string $addressZipCode;
-
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Address $address = null;
+    
     #[ORM\Column]
     private \DateTimeImmutable $createdAt;
 
     #[ORM\Column]
     private \DateTimeImmutable $updatedAt;
+
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $lastTransferDate = null;
 
     #[ORM\ManyToOne(inversedBy: 'members')]
     #[ORM\JoinColumn(nullable: false)]
@@ -144,69 +133,15 @@ class Member
         return $this;
     }
 
-    public function getAddressStreet(): string
+    public function getAddress(): ?Address
     {
-        return $this->addressStreet;
+        return $this->address;
     }
 
-    public function setAddressStreet(string $addressStreet): static
+    public function setAddress(Address $address): static
     {
-        $this->addressStreet = $addressStreet;
-        return $this;
-    }
+        $this->address = $address;
 
-    public function getAddressNumber(): string
-    {
-        return $this->addressNumber;
-    }
-
-    public function setAddressNumber(string $addressNumber): static
-    {
-        $this->addressNumber = $addressNumber;
-        return $this;
-    }
-
-    public function getAddressComplement(): ?string
-    {
-        return $this->addressComplement;
-    }
-
-    public function setAddressComplement(?string $addressComplement): static
-    {
-        $this->addressComplement = $addressComplement;
-        return $this;
-    }
-
-    public function getAddressCity(): string
-    {
-        return $this->addressCity;
-    }
-
-    public function setAddressCity(string $addressCity): static
-    {
-        $this->addressCity = $addressCity;
-        return $this;
-    }
-
-    public function getAddressState(): string
-    {
-        return $this->addressState;
-    }
-
-    public function setAddressState(string $addressState): static
-    {
-        $this->addressState = $addressState;
-        return $this;
-    }
-
-    public function getAddressZipCode(): string
-    {
-        return $this->addressZipCode;
-    }
-
-    public function setAddressZipCode(string $addressZipCode): static
-    {
-        $this->addressZipCode = $addressZipCode;
         return $this;
     }
 
@@ -228,6 +163,17 @@ class Member
     public function setChurch(?Church $church): static
     {
         $this->church = $church;
+        return $this;
+    }
+
+    public function getLastTransferDate(): ?\DateTimeImmutable
+    {
+        return $this->lastTransferDate;
+    }
+
+    public function setLastTransferDate(?\DateTimeImmutable $lastTransferDate): static
+    {
+        $this->lastTransferDate = $lastTransferDate;
         return $this;
     }
 }
