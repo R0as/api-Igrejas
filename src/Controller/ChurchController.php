@@ -17,13 +17,17 @@ class ChurchController extends AbstractController
     /**
      * Endpoint para listar todas as igrejas.
      */
-    public function index(ChurchRepository $churchRepository): JsonResponse
+    public function index(Request $request, ChurchRepository $churchRepository): JsonResponse
     {
+        $page = $request->query->getInt('page', 1);
+        $limit = $request->query->getInt('limit', 10);
 
-        $churches = $churchRepository->findAll();
+        $paginator = $churchRepository->findPaginated($page, $limit);
+        $totalItems = count($paginator);
+        $totalPages = ceil($totalItems / $limit);
 
         $data = [];
-        foreach ($churches as $church) {
+        foreach ($paginator as $church) {
             $data[] = [
                 'id' => $church->getId(),
                 'name' => $church->getName(),
@@ -32,7 +36,12 @@ class ChurchController extends AbstractController
             ];
         }
 
-        return $this->json($data);
+        return $this->json([
+            'items' => $data,
+            'currentPage' => $page,
+            'totalPages' => $totalPages,
+            'totalItems' => $totalItems
+        ]);
     }
 
     /**

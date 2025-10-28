@@ -25,20 +25,36 @@ class MemberController extends AbstractController
     /**
      * Lista todos os membros de uma igreja específica baseada no internal code da igreja
      */
-    public function index(#[MapEntity(mapping: ['internalCode' => 'internalCode'])] Church $church): JsonResponse
+    public function index(Request $request, #[MapEntity(mapping: ['internalCode' => 'internalCode'])] Church $church): JsonResponse
     {
-        $members = array_map(
-            fn(Member $member) => [
+        $page = $request->query->getInt('page', 1);
+        $limit = $request->query->getInt('limit', 10);
+
+        $paginator = $this->memberRepository->findPaginatedByChurch($church, $page, $limit);
+        $totalItems = count($paginator);
+        $totalPages = ceil($totalItems / $limit);
+
+        $items = [];
+        foreach ($paginator as $member) {
+            $items[] = [
                 'id' => $member->getId(),
                 'name' => $member->getName(),
                 'email' => $member->getEmail(),
                 'document' => $member->getDocumentNumber(),
                 'phone' => $member->getPhone(),
-            ],
-            $church->getMembers()->toArray()
-        );
-
-        return $this->json($members);
+            ];
+        }
+        
+        return $this->json([
+            'items' => $items,
+            'currentPage' => $page,
+            'totalPages' => $totalPages,
+            'totalItems' => $totalItems,
+            'church' => [
+                'internalCode' => $church->getInternalCode(),
+                'name' => $church->getName()
+            ]
+        ]);
     }
 
     /**

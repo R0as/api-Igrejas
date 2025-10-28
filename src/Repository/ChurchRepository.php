@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Church;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * @extends ServiceEntityRepository<Church>
@@ -16,28 +17,14 @@ class ChurchRepository extends ServiceEntityRepository
         parent::__construct($registry, Church::class);
     }
 
-//    /**
-//     * @return Church[] Returns an array of Church objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findPaginated(int $page, int $limit): Paginator
+    {
+        $query = $this->createQueryBuilder('c')
+            ->orderBy('c.name', 'ASC')
+            ->setFirstResult($limit * ($page - 1))
+            ->setMaxResults($limit)
+            ->getQuery();
 
-//    public function findOneBySomeField($value): ?Church
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        return new Paginator($query);
+    }
 }
