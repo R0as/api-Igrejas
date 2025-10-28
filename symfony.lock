@@ -41,6 +41,9 @@
             "version": "11.1"
         }
     },
+    "stof/doctrine-extensions-bundle": {
+        "version": "v1.14.0"
+    },
     "symfony/asset-mapper": {
         "version": "7.3",
         "recipe": {

@@ -22,6 +22,7 @@ class MemberRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder('m')
             ->where('m.church = :church')
+            ->andWhere('m.deletedAt IS NULL')
             ->setParameter('church', $church)
             ->orderBy('m.name', 'ASC')
             ->setFirstResult($limit * ($page - 1))

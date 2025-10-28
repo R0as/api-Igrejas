@@ -5,9 +5,11 @@ namespace App\Entity;
 use App\Repository\MemberRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: MemberRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[Gedmo\SoftDeleteable(fieldName: 'deletedAt', timeAware: false, hardDelete: true)]
 class Member
 {
     #[ORM\Id]
@@ -45,6 +47,9 @@ class Member
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $lastTransferDate = null;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $deletedAt;
 
     #[ORM\ManyToOne(inversedBy: 'members')]
     #[ORM\JoinColumn(nullable: false)]
@@ -174,6 +179,18 @@ class Member
     public function setLastTransferDate(?\DateTimeImmutable $lastTransferDate): static
     {
         $this->lastTransferDate = $lastTransferDate;
+        return $this;
+    }
+
+    public function getDeletedAt()
+    {
+        return $this->deletedAt;
+    }
+
+    public function setDeletedAt($deletedAt)
+    {
+        $this->deletedAt = $deletedAt;
+
         return $this;
     }
 }
