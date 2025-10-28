@@ -18,10 +18,10 @@ class Member
     #[ORM\Column(length: 255)]
     private string $name;
 
-    #[ORM\Column(length: 4, unique: true)]
+    #[ORM\Column(length: 4)]
     private string $documentType;
 
-    #[ORM\Column(length: 14, unique: true)]
+    #[ORM\Column(length: 30)]
     private string $documentNumber;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]

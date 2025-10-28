@@ -22,7 +22,7 @@ class Church
     #[ORM\Column(length: 4)]
     private string $ownerDocumentType;
 
-    #[ORM\Column(length: 14, unique: true)]
+    #[ORM\Column(length: 30)]
     private string $ownerDocumentNumber;
 
     #[ORM\Column(length: 255, unique: true)]
