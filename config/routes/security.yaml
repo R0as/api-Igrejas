@@ -1,3 +1,48 @@
-_security_logout:
-    resource: security.route_loader.logout
-    type: service
+# Lista todas as igrejas
+church.index:
+    path: /api/churches
+    controller: App\Controller\ChurchController::index
+    methods: [GET]
+
+# Cria uma nova igreja
+church.store:
+    path: /api/churches
+    controller: App\Controller\ChurchController::store
+    methods: [POST]
+
+# Lista todos os membros de uma igreja
+members.index:
+    path: /api/churches/{internalCode}/members
+    controller: App\Controller\MemberController::index
+    methods: [GET]
+
+# Cria um novo membro em uma igreja
+members.store:
+    path: /api/churches/{internalCode}/members
+    controller: App\Controller\MemberController::store
+    methods: [POST]
+
+# Exibe detalhes de um membro específico
+members.show:
+    path: /api/members/{id}
+    controller: App\Controller\MemberController::show
+    methods: [GET]
+
+# Atualiza um membro existente
+members.update:
+    path: /api/members/{id}
+    controller: App\Controller\MemberController::update
+    methods: [PUT]
+
+# Remove um membro
+members.destroy:
+    path: /api/members/{id}
+    controller: App\Controller\MemberController::destroy
+    methods: [DELETE]
+
+
+# Transfere o membro para outra Igreja
+member.transfer:    
+    path: /api/members/{id}/transfer
+    controller: App\Controller\TransferController::transfer
+    methods: [POST]
