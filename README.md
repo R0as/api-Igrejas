@@ -56,12 +56,7 @@ Siga os passos abaixo para configurar e executar o projeto em seu ambiente local
     cd api-Igrejas
     ```
 
-2.  **Instale as dependências:**
-    ```bash
-    composer install
-    ```
-
-3.  **Configure o ambiente:**
+2.  **Configure o ambiente:**
     * Copie o arquivo de exemplo `.env.example` para `.env`:
         ```bash
         cp .env.example .env
@@ -70,8 +65,12 @@ Siga os passos abaixo para configurar e executar o projeto em seu ambiente local
         ```
         # .env.local
         DATABASE_URL="mysql://usuario:senha@127.0.0.1:3306/api_igrejas"
-        JWT_PASSPHRASE=senhaDeExemplo
         ```
+
+3.  **Instale as dependências:**
+    ```bash
+    composer install
+    ```
 
 4.  **Crie e configure o banco de dados:**
     * Crie o banco de dados:
