@@ -77,6 +77,10 @@ Siga os passos abaixo para configurar e executar o projeto em seu ambiente local
         ```bash
         php bin/console doctrine:database:create
         ```
+    * Crie a migration do projeto para posteriormente executa-lá e criar as tabelas:
+        ```bash
+        php bin/console make:migration
+        ```
     * Execute as migrações para criar todas as tabelas:
         ```bash
         php bin/console doctrine:migrations:migrate
@@ -115,6 +119,7 @@ A seguir está a documentação de todos os endpoints disponíveis na API.
 
 
 Segue arquivo para download e teste via postman: [Download](https://drive.google.com/file/d/1WY2dV-AWbPD16OjdWFkXfOcxhqMtoSJG/view?usp=sharing)
+
 
 
 
